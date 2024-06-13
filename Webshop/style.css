@@ -4,6 +4,7 @@ body {
     margin: 0;
     font-size: 28px;
   }
+
 /*navbar*/
   ul {
     list-style-type: none;
@@ -41,7 +42,9 @@ body {
   .active {
     background-color: darkgreen;
   }
+
   /*login and create form*/
+  
 .main {
     margin-top: 50px;
     background-color: #302B2B;
@@ -95,6 +98,12 @@ button {
     font-size: 16px;
 }
 
+button:hover {
+  background-color: black;
+  text-decoration: underline;
+  text-decoration-color: darkgreen;
+}
+
 .wrap {
     display: flex;
     justify-content: center;
@@ -140,20 +149,6 @@ button {
 
 /* product page */
 
-.filter {
-  margin-bottom: 20px;
-}
-
-.filter form {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.filter label {
-  margin: 0 5px;
-}
-
 .products {
   display: flex;
   flex-wrap: wrap;
@@ -162,13 +157,68 @@ button {
 }
 
 .product {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 5px solid darkgreen;
+  background-color: #302B2B;
+  color: white;
+  border-radius: 15px;
   padding: 20px;
-  width: 200px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 60%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   text-align: center;
+  margin: 2px;
+  margin-top: 20px;
+}
+
+.product button {
+  display: inline-block;
+  width: 27vw;
+  margin: 5px;
+}
+
+.product img {
+  height: 210px;
+  width: 210px;
+}
+
+.product h2 {
+  text-align: right;
+}
+
+.product a {
+  color: white;
+}
+
+.product p {
+  text-align: right;
+  color: darkgreen;
+}
+
+.product h2 {
+  margin: 0 0 10px;
+}
+
+.product p {
+  margin: 5px 0;
+}
+
+.product a {
+  margin: 5px 0;
+}
+
+.product p.category {
+  margin-top: 10px;
+}
+
+.product p.price {
+  margin-top: 10px;
+}
+
+.product p.stock {
+  margin-top: 10px;
+}
+
+.product p.description {
+  margin-top: 10px;
 }
 
 /*shopping cart & checkout*/
@@ -186,6 +236,10 @@ button {
 
 main {
   margin-bottom: 20px;
+}
+
+p {
+  color: white;
 }
 
 .cart-item {
@@ -271,6 +325,7 @@ footer {
   cursor: pointer;
   font-size: 1em;
   text-decoration: none;
+  margin-top: -45px;
 }
 
 .checkout-btn:hover {
@@ -306,3 +361,38 @@ footer {
   text-decoration-color: darkred;
 }
 
+   /* Popup container - can be anything you want */
+   .popup {
+    position: fixed;
+    display: none;
+    width: 300px;
+    height: 250px;
+    color: white;
+    background-color: #302B2B;
+    border: 5px solid darkgreen;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    top: 27%;
+    left: 85.5%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    text-align: center;
+    border-radius: 15px;
+}
+.popup-header {
+    font-weight: bold;
+}
+.popup button {
+    margin-top: 10px;
+}
+.popup-close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+}
+.popup-close:hover {
+color: darkgreen;
+}

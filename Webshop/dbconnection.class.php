@@ -10,7 +10,7 @@ class dbconnection extends PDO
     {
         if(gethostname() == 'LAPTOP-8MFERA24'){
             $this->host = "localhost";
-            $this->dbname = "graphicsland_productpage";
+            $this->dbname = "graphicsland";
             $this->user = "root";
             $this->pass = "";
 
