@@ -1,0 +1,398 @@
+body {
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    font-size: 28px;
+  }
+
+/*navbar*/
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #302B2B;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  }
+  #line {
+    border-bottom: 5px solid darkgreen;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    background-color: black;
+    text-decoration: underline;
+    text-decoration-color: darkgreen;
+  }
+  
+  .active {
+    background-color: darkgreen;
+  }
+
+  /*login and create form*/
+  
+.main {
+    margin-top: 50px;
+    background-color: #302B2B;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    padding: 10px 20px;
+    transition: transform 0.2s;
+    width: 500px;
+    text-align: center;
+    border: 5px solid darkgreen;
+}
+
+#white {
+  color: white;
+}
+#darkgreen {
+  color: darkgreen;
+}
+
+label {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    text-align: left;
+    color: white;
+    font-weight: bold;
+}
+
+input {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    border: 3px solid darkgreen;
+}
+
+button {
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    background-color: darkgreen;
+    width: 100%;
+    font-size: 16px;
+}
+
+button:hover {
+  background-color: black;
+  text-decoration: underline;
+  text-decoration-color: darkgreen;
+}
+
+.wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.createaccount {
+  color: darkgreen;
+  text-decoration: underline;
+
+}
+#submit {
+  font-size: 20px;
+}
+
+/* home page card slider*/
+
+* {box-sizing: border-box;}
+  body {font-family: Verdana, sans-serif;}.slideshow-container {
+      position: relative;
+      max-width: 1000px;
+      margin: auto;}.mySlides {
+      display: none;}.dot-container {
+      text-align: center;
+      padding: 20px;
+  }
+  
+  .dot {
+      cursor: pointer;
+      height: 15px;
+      width: 15px;
+      margin: 0 2px;
+      background-color: #302B2B;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;}.active, .dot:hover {
+      background-color: darkgreen;}.fade {-webkit-animation-name: fade;-webkit-animation-duration: 1.5s;
+      animation-name: fade;
+      animation-duration: 1.5s;}@-webkit-keyframes fade {
+      from {opacity: .4} 
+      to {opacity: 1}}@keyframes fade {
+      from {opacity: .4} 
+      to {opacity: 1}}
+
+/* product page */
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.product {
+  border: 5px solid darkgreen;
+  background-color: #302B2B;
+  color: white;
+  border-radius: 15px;
+  padding: 20px;
+  width: 60%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  margin: 2px;
+  margin-top: 20px;
+}
+
+.product button {
+  display: inline-block;
+  width: 27vw;
+  margin: 5px;
+}
+
+.product img {
+  height: 210px;
+  width: 210px;
+}
+
+.product h2 {
+  text-align: right;
+}
+
+.product a {
+  color: white;
+}
+
+.product p {
+  text-align: right;
+  color: darkgreen;
+}
+
+.product h2 {
+  margin: 0 0 10px;
+}
+
+.product p {
+  margin: 5px 0;
+}
+
+.product a {
+  margin: 5px 0;
+}
+
+.product p.category {
+  margin-top: 10px;
+}
+
+.product p.price {
+  margin-top: 10px;
+}
+
+.product p.stock {
+  margin-top: 10px;
+}
+
+.product p.description {
+  margin-top: 10px;
+}
+
+/*shopping cart & checkout*/
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  background-color: #302B2B;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  margin-top: 50px;
+  border-radius: 10px;
+  border: 5px solid darkgreen;
+}
+
+main {
+  margin-bottom: 20px;
+}
+
+p {
+  color: white;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid darkgreen;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.item-info {
+  display: flex;
+  align-items: center;
+}
+
+.item-info img {
+  width: 150px;
+  height: 150px;
+  margin-right: 20px;
+}
+
+.item-info h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.item-info p {
+  margin: 5px 0 0;
+  color: darkgreen;
+}
+
+.item-actions {
+  display: flex;
+  align-items: center;
+}
+
+.item-actions input[type="number"] {
+  width: 50px;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.remove-btn {
+  padding: 5px 10px;
+  background-color: darkred;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  background-color: black;
+  color: darkred;
+  text-decoration: underline;
+  text-decoration-color: darkred;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid darkgreen;
+}
+
+.total h2 {
+  margin: 0;
+  font-size: 1.5em;
+  color: white;
+}
+
+.checkout-btn {
+  border-radius: 5px;
+  padding: 10px 20px;
+  background-color: darkgreen;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  text-decoration: none;
+  margin-top: -45px;
+}
+
+.checkout-btn:hover {
+  background-color: black;
+  text-decoration: underline;
+  text-decoration-color: darkgreen;
+}
+
+.bankselect {
+  width: 100%;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: white;
+  color:  #302B2B;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  border-radius: 5px;
+  padding: 10px 20px;
+  background-color: darkred;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  text-decoration: none;
+}
+.cancel-btn:hover {
+  background-color: black;
+  color: darkred;
+  text-decoration: underline;
+  text-decoration-color: darkred;
+}
+
+   /* Popup container - can be anything you want */
+   .popup {
+    position: fixed;
+    display: none;
+    width: 300px;
+    height: 250px;
+    color: white;
+    background-color: #302B2B;
+    border: 5px solid darkgreen;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    top: 27%;
+    left: 85.5%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    text-align: center;
+    border-radius: 15px;
+}
+.popup-header {
+    font-weight: bold;
+}
+.popup button {
+    margin-top: 10px;
+}
+.popup-close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+}
+.popup-close:hover {
+color: darkgreen;
+}
