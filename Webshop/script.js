@@ -24,3 +24,7 @@ function currentSlide(n) {
     slideIndex = n;
     showSlides();
 }
+
+function goToIndex() {
+    window.location.href = 'index.php';
+  }

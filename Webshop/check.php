@@ -1,8 +1,58 @@
 <?php
 session_start();
 $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
-?>
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Assuming POST data is sanitized and validated
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $zip = $_POST['zip'];
+    $country = $_POST['country'];
+    $bank = $_POST['bank'];
+
+    // Validate product_id for each item in the cart before proceeding
+    foreach ($_SESSION['cart'] as $item) {
+        if (!isset($item['id']) || is_null($item['id'])) {
+            echo "Error: product_id is missing or null for one of the items.";
+            exit; // Stop script execution if any product_id is invalid
+        }
+    }
+
+    // Proceed with database operations if all product_ids are valid
+    $conn = new mysqli("localhost", "root", "", "graphicsland");
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $conn->begin_transaction(); // Start transaction
+
+    $sql = "INSERT INTO orders (name, email, address, city, state, zip, country, bank) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssssssss", $name, $email, $address, $city, $state, $zip, $country, $bank);
+    $stmt->execute();
+    $orderId = $stmt->insert_id;
+
+    foreach ($_SESSION['cart'] as $item) {
+        $sql = "INSERT INTO order_items (order_id, product_id, quantity) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iii", $orderId, $item['id'], $item['quantity']);
+        $stmt->execute();
+    }
+
+    $conn->commit(); // Commit transaction
+    $_SESSION['cart'] = []; // Clear cart
+    echo "Order placed successfully!";
+
+    $stmt->close();
+    $conn->close();
+    // Redirect or notify the user accordingly
+} else {
+    // Handle GET request or other methods if necessary
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,18 +62,8 @@ $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <title>GraphicsLand - Products</title>
 </head>
 <body>
-    <!--Navbar-->
-    <ul id="line">
-        <li><a class="active" href="index.php">Home</a></li>
-        <li class="logo"><img src="IMG/graphicsland_logo.png" style="width: 170px;" alt="Logo"></li>
-        <li style="float:right"><a href="cart.php">Cart (<span id="cart-count"><?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?></span>)</a></li>
-        <?php if (isset($_SESSION['username'])): ?>
-            <li style="float:right"><a href="#" id="userMenu">Account</a></li>
-        <?php else: ?>
-            <li style="float:right"><a href="login.php">Login</a></li>
-        <?php endif; ?>
-        <li style="float:right"><a href="products.php">Products</a></li>
-    </ul>
+<?php include('header.php'); ?>
+
     <ul class="line"></ul>
       <div class="container">
         <header>
@@ -78,12 +118,11 @@ $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                 </div>
                 <br>
                 <a class="cancel-btn" href="cart.php">Cancel order</a>
-                <a type="submit" class="checkout-btn" href="#">Place Order</a>
+                <button type="submit" class="checkout-btn">Place Order</button>
             </form>
         </main>
     </div>
     <br>
-    <!-- Popup for logged-in user options -->
     <div id="userPopup" class="popup">
         <span class="popup-close" onclick="closePopup()">&times;</span>
         <div class="popup-header">Welcome, <a id="userMenu"><?php echo htmlspecialchars($_SESSION['username']); ?></a></div>
@@ -105,7 +144,7 @@ $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                 document.getElementById('userPopup').style.display = 'none';
             }
         }
-        </script>
+    </script>
 </body>
 <script src="script.js"></script>
 </html>

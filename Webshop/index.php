@@ -20,30 +20,20 @@ $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 <body>
   
     <!-- Navbar -->
-    <ul id="line">
-        <li><a class="active" href="index.php">Home</a></li>
-        <li class="logo"><img src="IMG/graphicsland_logo.png" style="width: 170px;" alt="Logo"></li>
-        <li style="float:right"><a href="cart.php">Cart (<span id="cart-count"><?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?></span>)</a></li>
-        <?php if (isset($_SESSION['username'])): ?>
-            <li style="float:right"><a href="#" id="userMenu">Account</a></li>
-        <?php else: ?>
-            <li style="float:right"><a href="login.php">Login</a></li>
-        <?php endif; ?>
-        <li style="float:right"><a href="products.php">Products</a></li>
-    </ul>
-    <ul class="line"></ul>
+    <?php include('header.php'); ?>
+
 
       <center>
       <br>
       <div class="slideshow-container">
       <div class="mySlides fade">
-          <img src="img/pexels-ann-h-14936128.jpg" style="width:80%">
+          <img src="IMG/nvidiacard.png" style="width:50%">
       </div>
       <div class="mySlides fade">
-          <img src="img/pexels-ann-h-14936128.jpg" style="width:80%">
+          <img src="IMG/amdcard.png" style="width:50%">
       </div>
       <div class="mySlides fade">
-          <img src="img/pexels-ann-h-14936128.jpg" style="width:80%">
+          <img src="IMG/intelcard.png" style="width:50%" >
       </div> 
       <div class="dot-container">
         <span class="dot" onclick="currentSlide(1)"></span> 

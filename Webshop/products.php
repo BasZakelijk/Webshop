@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         } else {
             $_SESSION['cart'][$product_id] = [
                 'name' => $product['productname'],
+                'image' => $product['image'],
                 'price' => $product['price'],
                 'quantity' => 1
             ];
@@ -41,25 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     <title>GraphicsLand - Products</title>
 </head>
 <body>
-    <!--Navbar-->
-    <ul id="line">
-        <li><a class="active" href="index.php">Home</a></li>
-        <li class="logo"><img src="IMG/graphicsland_logo.png" style="width: 170px;" alt="Logo"></li>
-        <li style="float:right"><a href="cart.php">Cart (<span id="cart-count"><?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?></span>)</a></li>
-        <?php if (isset($_SESSION['username'])): ?>
-            <li style="float:right"><a href="#" id="userMenu">Account</a></li>
-        <?php else: ?>
-            <li style="float:right"><a href="login.php">Login</a></li>
-        <?php endif; ?>
-        <li style="float:right"><a href="products.php">Products</a></li>
-    </ul>
-    <ul class="line"></ul>
-    <br>
-    <div class="products">
+  
+<?php include('header.php'); ?>
+<center>
     <?php
     foreach ($recset as $row) {
         echo "<div class='product'>";
-        echo '<center><img style="float:left" src="IMG/placeholder.jpg" alt="Image"></center>';
+        echo '<img src="' . $row['image'] . '" style="float: left;">';
         echo "<h2>" . $row['productname'] . "</h2>";
         echo "<a><p>Category: </a>" . $row['manufacturer'] . "</p>";
         echo "<p><a>Price: </a>€" . number_format($row['price'], 2, ',', '') . "</p>";
@@ -73,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         echo "</div>";
     }
     ?>
+    </center>
     </div>
     <br>
     <!-- Popup for logged-in user options -->

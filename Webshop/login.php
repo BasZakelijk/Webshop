@@ -44,19 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>GraphicsLand - Login</title>
 </head>
 <body>
-    <!-- Navbar -->
-    <ul id="line">
-        <li><a class="active" href="index.php">Home</a></li>
-        <li class="logo"><img src="IMG/graphicsland_logo.png" style="width: 170px;" alt="Logo"></li>
-        <li style="float:right"><a href="cart.php">Cart (<span id="cart-count"><?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?></span>)</a></li>
-        <?php if (isset($_SESSION['username'])): ?>
-            <li style="float:right"><a href="#" id="userMenu">Account</a></li>
-        <?php else: ?>
-            <li style="float:right"><a href="login.php">Login</a></li>
-        <?php endif; ?>
-        <li style="float:right"><a href="products.php">Products</a></li>
-    </ul>
-    <ul class="line"></ul>
+<?php include('header.php'); ?>
+
     <center>
     <div class="main">
         <h3 id="white">Enter your login credentials</h3>

@@ -13,19 +13,8 @@ $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <title>GraphicsLand - Shopping cart</title>
 </head>
 <body>
-    <!-- Navbar -->
-    <ul id="line">
-        <li><a class="active" href="index.php">Home</a></li>
-        <li class="logo"><img src="IMG/graphicsland_logo.png" style="width: 170px;" alt="Logo"></li>
-        <li style="float:right"><a href="cart.php">Cart (<span id="cart-count"><?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?></span>)</a></li>
-        <?php if (isset($_SESSION['username'])): ?>
-            <li style="float:right"><a href="#" id="userMenu">Account</a></li>
-        <?php else: ?>
-            <li style="float:right"><a href="login.php">Login</a></li>
-        <?php endif; ?>
-        <li style="float:right"><a href="products.php">Products</a></li>
-    </ul>
-    <ul class="line"></ul>
+<?php include('header.php'); ?>
+
 
     <!-- Page Content -->
     <div class="container">
@@ -39,10 +28,10 @@ $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                         $total += $product['price'] * $product['quantity'];
                         echo "<div class='cart-item' data-product-id='$product_id'>";
                         echo "<div class='item-info'>";
-                        echo "<img src='https://via.placeholder.com/150' alt='Product Image'>";
+                        echo '<img src="' . $product['image'] . '" style="float: left;">';
                         echo "<div>";
                         echo "<h2>" . htmlspecialchars($product['name']) . "</h2>";
-                        echo "<p>Price: €<span class='item-price'>" . number_format($product['price'], 2, ',', '') . "</span></p>";
+                        echo "<p>Price: <a>€</a><span class='item-price'>" . number_format($product['price'], 2, ',', '') . "</span></p>";
                         echo "</div>";
                         echo "</div>";
                         echo "<div class='item-actions'>";
@@ -109,7 +98,25 @@ $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 
         function updateCart(input) {
             var productId = input.name.match(/\d+/)[0];
-            var quantity = input.value;
+            var quantity = parseInt(input.value);
+            var oldQuantity = parseInt(input.getAttribute('data-old-quantity') || '0');
+            var price = parseFloat(document.querySelector(`.cart-item[data-product-id='${productId}'] .item-price`).textContent.replace(',', '.'));
+
+            // Calculate new total price on client side
+            var oldTotal = parseFloat(document.getElementById('total').textContent.replace(',', '.'));
+            var newTotal = oldTotal - (oldQuantity * price) + (quantity * price);
+            document.getElementById('total').textContent = newTotal.toFixed(2).replace('.', ',');
+
+            // Update old quantity
+            input.setAttribute('data-old-quantity', quantity);
+
+            // If quantity is 0, remove the item from the cart
+            if (quantity === 0) {
+                removeFromCart(productId);
+                return;
+            }
+
+            // Update total price on server side
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'cart_action.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -117,7 +124,6 @@ $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var response = JSON.parse(xhr.responseText);
                     if (response.status === 'success') {
-                        document.getElementById('total').textContent = response.total.toFixed(2);
                         document.getElementById('cart-count').textContent = response.cart_count;
                     }
                 }
