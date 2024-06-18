@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Proceed with database operations if all product_ids are valid
-    $conn = new mysqli("localhost", "root", "", "graphicsland"); // Create a new connection to the database
+    $conn = new mysqli("localhost", "u173298p199184_graphicsland", "8H;Y\"?xqbhCzN0\"!5Z]ATOnucH", "u173298p199184_graphicsland"); // Create a new connection to the database
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error); // Handle connection error
     }
