@@ -1,32 +1,44 @@
 <?php
+// Start a new session or resume the existing one
 session_start();
+
+// Check if the cart exists in the session, if it does, count the items, otherwise set the count to 0
 $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 ?>
 
 <?php
+// Include the database connection class
 require 'dbconnection.class.php';
 
+// Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get the form data
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
+    // Check if the password and confirm password match
     if ($password !== $confirm_password) {
         echo 'Passwords do not match.';
         exit;
     }
 
+    // Hash the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     try {
+        // Create a new database connection
         $pdo = new dbconnection();
+
+        // Prepare the SQL statement
         $stmt = $pdo->prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)');
+
+        // Execute the SQL statement with the form data
         $stmt->execute([$username, $email, $hashed_password]);
-        //echo 'Registration successful!';
     } catch (PDOException $e) {
+        // Check if the error is a duplicate entry error
         if ($e->errorInfo[1] == 1062) {
-            // Duplicate entry error code
             echo 'Username or email already exists.';
         } else {
             echo 'An error occurred.';

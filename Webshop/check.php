@@ -1,5 +1,7 @@
 <?php
-session_start();
+session_start(); // Start the session to access session variables
+
+// Get the count of items in the cart or set to 0 if cart is empty
 $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -14,38 +16,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bank = $_POST['bank'];
 
     // Validate product_id for each item in the cart before proceeding
-    foreach ($_SESSION['cart'] as $item) {
-        if (!isset($item['id']) || is_null($item['id'])) {
+    foreach ($_SESSION['cart'] as $product_id => $item) {
+        if (!isset($product_id) || is_null($product_id)) {
             echo "Error: product_id is missing or null for one of the items.";
             exit; // Stop script execution if any product_id is invalid
         }
     }
 
     // Proceed with database operations if all product_ids are valid
-    $conn = new mysqli("localhost", "root", "", "graphicsland");
+    $conn = new mysqli("localhost", "root", "", "graphicsland"); // Create a new connection to the database
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        die("Connection failed: " . $conn->connect_error); // Handle connection error
     }
 
-    $conn->begin_transaction(); // Start transaction
+    $conn->begin_transaction(); // Start a database transaction
 
+    // Prepare and execute the SQL statement to insert the order details
     $sql = "INSERT INTO orders (name, email, address, city, state, zip, country, bank) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssssssss", $name, $email, $address, $city, $state, $zip, $country, $bank);
     $stmt->execute();
-    $orderId = $stmt->insert_id;
+    $orderId = $stmt->insert_id; // Get the ID of the newly inserted order
 
-    foreach ($_SESSION['cart'] as $item) {
+    // Insert each item in the cart into the order_items table
+    foreach ($_SESSION['cart'] as $product_id => $item) {
         $sql = "INSERT INTO order_items (order_id, product_id, quantity) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iii", $orderId, $item['id'], $item['quantity']);
+        $stmt->bind_param("iii", $orderId, $product_id, $item['quantity']);
         $stmt->execute();
     }
+    
+    $conn->commit(); // Commit the transaction
+    $_SESSION['cart'] = []; // Clear the cart
+    echo "<div class='placed'>Order placed successfully!</div>";
 
-    $conn->commit(); // Commit transaction
-    $_SESSION['cart'] = []; // Clear cart
-    echo "Order placed successfully!";
-
+    // Close the statement and connection
     $stmt->close();
     $conn->close();
     // Redirect or notify the user accordingly
@@ -58,11 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> <!-- Link to external CSS file -->
     <title>GraphicsLand - Products</title>
 </head>
 <body>
-<?php include('header.php'); ?>
+<?php include('header.php'); ?> <!-- Include header file -->
 
     <ul class="line"></ul>
       <div class="container">
@@ -70,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <center><h1 style="color: darkgreen;">Checkout</h1></center>
         </header>
         <main>
+            <!-- Checkout form -->
             <form action="#" method="POST">
                 <div class="form-group">
                     <label for="name">Full Name</label>
@@ -117,28 +123,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </select>
                 </div>
                 <br>
-                <a class="cancel-btn" href="cart.php">Cancel order</a>
-                <button type="submit" class="checkout-btn">Place Order</button>
+                <button class="cancel-btn" href="cart.php">Cancel order</button> <!-- Button to cancel the order -->
+                <button type="submit" class="checkout-btn">Place Order</button> <!-- Button to place the order -->
             </form>
         </main>
     </div>
-    <br>
+    
     <div id="userPopup" class="popup">
-        <span class="popup-close" onclick="closePopup()">&times;</span>
-        <div class="popup-header">Welcome, <a id="userMenu"><?php echo htmlspecialchars($_SESSION['username']); ?></a></div>
-        <button onclick="window.location.href='logout.php'">Logout</button>
-        <button onclick="window.location.href='purchase_history.php'">Purchase History</button>
+        <span class="popup-close" onclick="closePopup()">&times;</span> <!-- Close button for the popup -->
+        <div class="popup-header">Welcome, <a id="userMenu"><?php echo htmlspecialchars($_SESSION['username']); ?></a></div> <!-- Display the username -->
+        <button onclick="window.location.href='logout.php'">Logout</button> <!-- Logout button -->
     </div>
 
     <script>
+        // Event listener to show the popup when the user menu is clicked
         document.getElementById('userMenu').addEventListener('click', function() {
             document.getElementById('userPopup').style.display = 'block';
         });
 
+        // Function to close the popup
         function closePopup() {
             document.getElementById('userPopup').style.display = 'none';
         }
 
+        // Event listener to close the popup if the user clicks outside of it
         window.onclick = function(event) {
             if (event.target == document.getElementById('userPopup')) {
                 document.getElementById('userPopup').style.display = 'none';
